@@ -4,8 +4,22 @@ import 'package:product_explorer/utils/app_theme.dart';
 import 'package:product_explorer/views/screens/widgets/buildbody_widget.dart';
 import 'package:provider/provider.dart';
 
-class ProductListScreen extends StatelessWidget {
+class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
+
+  @override
+  State<ProductListScreen> createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      Provider.of<ProductController>(context, listen: false).loadProducts();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +47,14 @@ class ProductListScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                      height: 46,
-                      width: 46,
-                      decoration: BoxDecoration(
+                        height: 46,
+                        width: 46,
+                        decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(16)),
-                      child: const Icon(Icons.shopping_bag_outlined),
-                    ),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Icon(Icons.shopping_bag_outlined),
+                      ),
                     ],
                   ),
                 ),
@@ -54,22 +69,30 @@ class ProductListScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 14),
-                  Padding(
+                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(children: [
-                    const Text('Products',
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Products',
                         style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w800)),
-                    const Spacer(),
-                    Text('${products.length} items',
+                          fontSize: 17,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        '${products.length} items',
                         style: const TextStyle(
-                            color: AppTheme.muted, fontSize: 11)),
-                  ]),
+                          color: AppTheme.muted,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 12),
-                Expanded(
-                  child: buildBody(context, controller, products),
-                ),
+                Expanded(child: buildBody(context, controller, products)),
               ],
             );
           },

@@ -6,11 +6,10 @@ import 'package:product_explorer/views/screens/product_list_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-   final service = ProductService();
+  final service = ProductService();
   runApp(
     ChangeNotifierProvider(
-      create: (_) =>
-          ProductController(service: service,),
+      create: (_) => ProductController(service: service),
       child: const ProductExplorerApp(),
     ),
   );
