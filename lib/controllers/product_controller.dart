@@ -63,10 +63,20 @@ class ProductController extends ChangeNotifier {
     }).toList();
   }
 
+  List<String> get categories {
+    final values = _products.map((p) => p.category).toSet().toList()..sort();
+    return values;
+  }
+
   Future<void> refresh() => loadProducts(forceRefresh: true);
 
   void updateSearch(String value) {
     _searchQuery = value.trim().toLowerCase();
+    notifyListeners();
+  }
+
+  void selectCategory(String? category) {
+    _selectedCategory = category;
     notifyListeners();
   }
 }

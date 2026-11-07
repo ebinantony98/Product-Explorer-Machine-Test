@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:product_explorer/controllers/product_controller.dart';
 import 'package:product_explorer/utils/app_theme.dart';
 import 'package:product_explorer/views/screens/widgets/buildbody_widget.dart';
+import 'package:product_explorer/widgets/category.dart';
 import 'package:provider/provider.dart';
 
 class ProductListScreen extends StatefulWidget {
@@ -46,15 +47,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           ],
                         ),
                       ),
-                      Container(
-                        height: 46,
-                        width: 46,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: const Icon(Icons.shopping_bag_outlined),
-                      ),
                     ],
                   ),
                 ),
@@ -68,6 +60,57 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 14),
+                SizedBox(
+                  height: 38,
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Category(
+                        label: 'All',
+                        selected: controller.selectedCategory == null,
+                        onTap: () => controller.selectCategory(null),
+                      ),
+                      ...controller.categories.map(
+                        (category) => Category(
+                          label: category,
+                          selected: controller.selectedCategory == category,
+                          onTap: () => controller.selectCategory(category),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (controller.isOfflineData)
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    padding: const EdgeInsets.all(9),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF4DE),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.cloud_off_outlined,
+                          size: 16,
+                          color: Color(0xFF9A6715),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            controller.errorMessage ??
+                                'Offline mode · Showing saved products',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Color(0xFF805714),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 const SizedBox(height: 14),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
