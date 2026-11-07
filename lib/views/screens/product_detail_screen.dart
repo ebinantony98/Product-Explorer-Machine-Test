@@ -17,7 +17,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   
   @override
   Widget build(BuildContext context) {
-        final product = widget.product;
+    final product = widget.product;
     final gallery = product.images.isEmpty ? [product.thumbnail] : product.images;
     final imageIndex = _selectedImage.clamp(0, gallery.length - 1);
     return Scaffold(
@@ -37,8 +37,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: CachedNetworkImage(
                     imageUrl: gallery[imageIndex],
                     fit: BoxFit.contain,
-                    placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
-                    errorWidget: (_, __, ___) => const Center(child: Icon(Icons.image_not_supported_outlined, size: 42)),
+                    placeholder: (_, _) => const Center(child: CircularProgressIndicator()),
+                    errorWidget: (_, _, _) => const Center(child: Icon(Icons.image_not_supported_outlined, size: 42)),
                   ),
                 ),
                 if (product.discountPercentage > 0)
@@ -61,7 +61,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 scrollDirection: Axis.horizontal,
                 itemCount: gallery.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 10),
+                separatorBuilder: (_, _) => const SizedBox(width: 10),
                 itemBuilder: (context, index) => GestureDetector(
                   onTap: () => setState(() => _selectedImage = index),
                   child: Container(

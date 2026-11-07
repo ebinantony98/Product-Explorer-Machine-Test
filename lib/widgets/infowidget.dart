@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:product_explorer/utils/app_theme.dart';
 
 class InfoRow extends StatelessWidget {
-  const InfoRow(this.label, this.value);
+  const InfoRow(this.label, this.value, {super.key});
   final String label;
   final String value;
 

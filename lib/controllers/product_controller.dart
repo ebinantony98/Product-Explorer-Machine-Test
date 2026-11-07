@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:product_explorer/models/product.dart';
+import 'package:product_explorer/services/product_cache_service.dart';
 import 'package:product_explorer/services/product_service.dart';
 
 enum ProductStatus { initial, loading, success, empty, error }
 
 class ProductController extends ChangeNotifier {
-  ProductController({required ProductRepository service}) : _service = service;
+  ProductController({
+    required ProductRepository service,
+    required ProductCache cache,
+  }) : _service = service,
+       _cache = cache;
 
   final ProductRepository _service;
+  final ProductCache _cache;
 
   List<Product> _products = [];
   ProductStatus _status = ProductStatus.initial;
@@ -30,6 +36,20 @@ class ProductController extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
+    if (!forceRefresh) {
+      try {
+        final cached = await _cache.readProducts();
+        if (cached != null && cached.isNotEmpty) {
+          _products = cached;
+          _isOfflineData = true;
+          _status = ProductStatus.success;
+          notifyListeners();
+        }
+      } catch (_) {
+        // A corrupt cache should not prevent a fresh network request.
+      }
+    }
+
     try {
       final freshProducts = await _service.fetchProducts();
       _products = freshProducts;
@@ -38,6 +58,11 @@ class ProductController extends ChangeNotifier {
           ? ProductStatus.empty
           : ProductStatus.success;
       _errorMessage = null;
+      try {
+        await _cache.writeProducts(freshProducts);
+      } catch (_) {
+        // The online catalogue remains usable if local persistence fails.
+      }
     } catch (error) {
       if (_products.isNotEmpty) {
         _isOfflineData = true;
