@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:product_explorer/controllers/product_controller.dart';
+import 'package:product_explorer/services/product_service.dart';
 import 'package:product_explorer/utils/app_theme.dart';
 import 'package:product_explorer/views/screens/product_list_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+   final service = ProductService();
   runApp(
     ChangeNotifierProvider(
       create: (_) =>
-          ProductController(),
+          ProductController(service: service,),
       child: const ProductExplorerApp(),
     ),
   );
