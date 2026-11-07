@@ -21,6 +21,7 @@ class ProductController extends ChangeNotifier {
   String _searchQuery = '';
   String? _selectedCategory;
   bool _isOfflineData = false;
+  final Set<int> _favoriteProductIds = {};
 
   List<Product> get products => List.unmodifiable(_products);
   ProductStatus get status => _status;
@@ -28,6 +29,16 @@ class ProductController extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   String? get selectedCategory => _selectedCategory;
   bool get isOfflineData => _isOfflineData;
+  bool isFavorite(int productId) => _favoriteProductIds.contains(productId);
+
+  void toggleFavorite(int productId) {
+    if (_favoriteProductIds.contains(productId)) {
+      _favoriteProductIds.remove(productId);
+    } else {
+      _favoriteProductIds.add(productId);
+    }
+    notifyListeners();
+  }
 
   Future<void> loadProducts({bool forceRefresh = false}) async {
     if (_status == ProductStatus.loading) return;
@@ -97,6 +108,7 @@ class ProductController extends ChangeNotifier {
 
   void updateSearch(String value) {
     _searchQuery = value.trim().toLowerCase();
+    _selectedCategory = null;
     notifyListeners();
   }
 
