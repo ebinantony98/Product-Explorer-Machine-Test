@@ -4,6 +4,7 @@ import 'package:product_explorer/controllers/product_controller.dart';
 import 'package:product_explorer/models/product.dart';
 import 'package:product_explorer/utils/app_theme.dart';
 import 'package:product_explorer/widgets/infowidget.dart';
+import 'package:product_explorer/widgets/product_reviews_section.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -231,6 +232,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 InfoRow('Returns', product.returnPolicy),
                 if (product.tags.isNotEmpty)
                   InfoRow('Tags', product.tags.join(', ')),
+                ProductReviewsSection(reviews: product.reviews),
               ],
             ),
           ),

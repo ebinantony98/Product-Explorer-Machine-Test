@@ -8,11 +8,24 @@ class InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 7),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(width: 112, child: Text(label, style: const TextStyle(color: AppTheme.muted, fontSize: 12))),
-          Expanded(child: Text(value.isEmpty ? 'Not specified' : value,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12))),
-        ]),
-      );
+    padding: const EdgeInsets.symmetric(vertical: 7),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 112,
+          child: Text(
+            label,
+            style: const TextStyle(color: AppTheme.muted, fontSize: 12),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value.isEmpty ? 'Not specified' : value,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+          ),
+        ),
+      ],
+    ),
+  );
 }
