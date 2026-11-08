@@ -31,7 +31,7 @@ If necessary, switch to Flutter 3.44.8 using your Flutter version manager, or in
 ## Setup
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone <https://github.com/ebinantony98/Product-Explorer-Machine-Test.git>
 cd product_explorer
 flutter pub get
 flutter run
